@@ -3,7 +3,7 @@ import { useState, type CSSProperties } from "react";
 // deterministic pseudo-random so SSR and client match
 export const rnd = (i: number, s = 1) => {
   const x = Math.sin(i * 9301 + s * 49297) * 233280;
-  return x - Math.floor(x);
+  return Math.round((x - Math.floor(x)) * 1000) / 1000;
 };
 
 export function Particles({ count = 40, className = "" }: { count?: number; className?: string }) {
