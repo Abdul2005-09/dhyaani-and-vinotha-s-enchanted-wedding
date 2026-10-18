@@ -326,7 +326,7 @@ export function CastleScene() {
       <div className="absolute inset-0" style={{ animation: "camera-push 7s ease-out both" }}>
         <Stars count={90} />
         <div className="absolute inset-0 flex items-end justify-center">
-          <svg viewBox="0 0 1000 500" className="h-[78vh] w-full" preserveAspectRatio="xMidYMax slice" style={{ animation: "castle-rise 4s var(--ease-magic) 0.4s both" }} aria-hidden>
+          <svg viewBox="0 0 1000 500" className="w-[170vw] max-w-none sm:h-[78vh] sm:w-full" preserveAspectRatio="xMidYMax meet" style={{ animation: "castle-rise 4s var(--ease-magic) 0.4s both" }} aria-hidden>
             {/* distant towers */}
             <g opacity="0.55">
               <Tower x={120} w={30} h={180} roof={60} />
