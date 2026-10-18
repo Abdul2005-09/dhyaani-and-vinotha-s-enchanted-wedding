@@ -28,12 +28,6 @@ export function Experience() {
       {scene === "journey" && <JourneyScene duration={journeyMs} />}
       {scene === "castle" && <CastleScene />}
       {scene === "hall" && <HallScene />}
-      {scene === "site" && <WeddingSite />}
-      {scene !== "site" && (
-        <button onClick={() => setScene("site")} className="btn-ghost-gold fixed right-4 top-4 z-50 rounded-full px-4 py-2 text-[0.6rem]">
-          SKIP INTRO
-        </button>
-      )}
     </>
   );
 }
