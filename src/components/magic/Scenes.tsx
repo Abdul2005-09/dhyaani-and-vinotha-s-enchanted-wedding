@@ -193,7 +193,7 @@ export function PlatformScene({ onBoard }: { onBoard: () => void }) {
             <h2 className="font-script text-5xl text-crimson"><Letters text={wedding.groom} delay={4.1} /></h2>
             <div style={{ animation: "fade-up 1s 5s both" }} className="mt-4 space-y-1 font-serif">
               <p className="italic">{wedding.invitation}</p>
-              <p className="text-sm">{wedding.events[0].date.replace("Saturday, ", "")} &amp; {wedding.events[1].date.replace("Sunday, ", "")}</p>
+              <p className="text-sm">{wedding.events[0]!.date.replace("Saturday, ", "")} &amp; {wedding.events[1]!.date.replace("Sunday, ", "")}</p>
               <p className="font-display text-xs tracking-[0.2em]">{wedding.venue.name.toUpperCase()}</p>
             </div>
             <button onClick={board} className="btn-magic mt-6 rounded-full px-7 py-3 text-xs" style={{ animation: "fade-up 1s 6s both" }}>
