@@ -8,3 +8,6 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Wedding content lives in `src/lib/wedding.ts`; the cinematic intro is a scene state machine in `src/components/magic/Experience.tsx` — edit details in the config, not in scenes, so all scenes stay in sync.
+- Optional videos/music (`/videos/*.mp4`, `/audio/wedding-music.mp3` in `public/`) render only when the file loads — the CSS/SVG fallback must keep working without them.
