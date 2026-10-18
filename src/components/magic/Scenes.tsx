@@ -326,7 +326,7 @@ export function CastleScene() {
       <div className="absolute inset-0" style={{ animation: "camera-push 7s ease-out both" }}>
         <Stars count={90} />
         <div className="absolute inset-0 flex items-end justify-center">
-          <svg viewBox="0 0 1000 500" className="h-[78vh] w-[max(100vw,700px)]" preserveAspectRatio="xMidYMax meet" style={{ animation: "castle-rise 4s var(--ease-magic) 0.4s both" }} aria-hidden>
+          <svg viewBox="0 0 1000 500" className="h-[78vh] w-full" preserveAspectRatio="xMidYMax slice" style={{ animation: "castle-rise 4s var(--ease-magic) 0.4s both" }} aria-hidden>
             {/* distant towers */}
             <g opacity="0.55">
               <Tower x={120} w={30} h={180} roof={60} />
@@ -357,7 +357,7 @@ export function CastleScene() {
         ))}
         <div className="pointer-events-none absolute inset-y-0 left-0 w-1/2 velvet-tex opacity-80" style={{ filter: "blur(30px)", animation: "mist-part 3s var(--ease-cine) 0.2s both", "--mx": "-80%" } as React.CSSProperties} />
         <div className="pointer-events-none absolute inset-y-0 right-0 w-1/2 velvet-tex opacity-80" style={{ filter: "blur(30px)", animation: "mist-part 3s var(--ease-cine) 0.2s both", "--mx": "80%" } as React.CSSProperties} />
-        <FloatingCandles count={10} />
+        <FloatingCandles count={8} />
         <Particles count={35} />
       </div>
       <div className="absolute inset-x-0 top-[8%] text-center" style={{ animation: "fade-up 1.5s 2.6s both" }}>

@@ -62,8 +62,8 @@ export function FloatingCandles({ count = 14 }: { count?: number }) {
         <Candle
           key={i}
           x={`${4 + rnd(i, 11) * 90}%`}
-          y={`${4 + rnd(i, 12) * 40}%`}
-          scale={0.45 + rnd(i, 13) * 0.75}
+          y={`${2 + rnd(i, 12) * 30}%`}
+          scale={0.3 + rnd(i, 13) * 0.5}
           delay={rnd(i, 14) * 3}
         />
       ))}
