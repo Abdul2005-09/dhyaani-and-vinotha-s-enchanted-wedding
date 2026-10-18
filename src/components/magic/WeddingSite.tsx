@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { wedding, timeLeft } from "@/lib/wedding";
 import { HallBackdrop } from "./Scenes";
 import { Crest, Divider, Letters } from "./Effects";
+import { toggleMusic, getMusicState, subscribeMusic } from "@/lib/sfx";
 
 function useReveal() {
   useEffect(() => {
