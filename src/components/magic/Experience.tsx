@@ -28,6 +28,7 @@ export function Experience() {
       {scene === "journey" && <JourneyScene duration={journeyMs} />}
       {scene === "castle" && <CastleScene />}
       {scene === "hall" && <HallScene />}
+      {scene === "site" && <WeddingSite />}
     </>
   );
 }
