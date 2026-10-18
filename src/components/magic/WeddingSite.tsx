@@ -70,7 +70,7 @@ export function WeddingSite() {
         <div className="relative space-y-5">
           <Crest className="mx-auto h-20 w-20" />
           <p className="font-display text-[0.65rem] tracking-[0.4em] text-candle" style={{ animation: "fade-up 1s 0.3s both" }}>TOGETHER WITH THEIR FAMILIES</p>
-          <h1 className="font-script text-6xl leading-tight text-gold-shimmer sm:text-8xl">
+          <h1 className="font-script text-6xl leading-tight text-gold-crisp sm:text-8xl">
             <Letters text={wedding.bride} delay={0.5} /> <br />
             <span className="font-display text-xl tracking-[0.5em] text-gold sm:text-2xl">WEDS</span> <br />
             <Letters text={wedding.groom} delay={1.2} />
