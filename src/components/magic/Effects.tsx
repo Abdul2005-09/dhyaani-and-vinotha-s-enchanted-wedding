@@ -168,16 +168,28 @@ export function Divider() {
 }
 
 export function Letters({ text, delay = 0, step = 0.08 }: { text: string; delay?: number; step?: number }) {
+  const words = text.split(" ");
+  let n = 0;
   return (
     <span aria-label={text}>
-      {text.split("").map((c, i) => (
-        <span
-          key={i}
-          aria-hidden
-          className="inline-block"
-          style={{ animation: `letter-in 0.9s var(--ease-magic) ${delay + i * step}s both` }}
-        >
-          {c === " " ? "\u00a0" : c}
+      {words.map((word, wi) => (
+        <span key={wi}>
+          <span className="inline-block whitespace-nowrap">
+            {word.split("").map((c, ci) => {
+              const i = n++;
+              return (
+                <span
+                  key={ci}
+                  aria-hidden
+                  className="inline-block"
+                  style={{ animation: `letter-in 0.9s var(--ease-magic) ${delay + i * step}s both` }}
+                >
+                  {c}
+                </span>
+              );
+            })}
+          </span>
+          {wi < words.length - 1 ? <span aria-hidden>{" "}</span> : null}
         </span>
       ))}
     </span>

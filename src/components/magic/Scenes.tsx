@@ -9,8 +9,8 @@ export function InvitationScene({ onDone }: { onDone: () => void }) {
   const openIt = () => {
     if (open) return;
     setOpen(true);
-    setTimeout(() => setLeaving(true), 3400);
-    setTimeout(onDone, 4400);
+    setTimeout(() => setLeaving(true), 8000);
+    setTimeout(onDone, 9200);
   };
   return (
     <section className={`fixed inset-0 overflow-hidden bg-velvet ${open ? "is-open" : ""}`}>
@@ -395,7 +395,7 @@ export function HallScene() {
       <div className="pointer-events-none absolute inset-y-0 w-1/3" style={{ background: "linear-gradient(90deg, transparent, oklch(0.89 0.08 85 / 0.18), transparent)", animation: "sweep 3s var(--ease-cine) 0.6s both" }} />
       <div className="relative flex h-full flex-col items-center justify-center gap-4 px-6 text-center">
         <p className="font-display text-[0.65rem] tracking-[0.4em] text-candle" style={{ animation: "fade-up 1s 0.6s both" }}>WELCOME TO THE GREAT HALL</p>
-        <h2 className="font-script text-6xl text-gold-shimmer sm:text-7xl"><Letters text={wedding.heading} delay={1} step={0.05} /></h2>
+        <h2 className="font-script text-4xl text-gold-crisp sm:text-7xl"><Letters text={wedding.heading} delay={0.6} step={0.03} /></h2>
         <div style={{ animation: "fade-in 1s 2s both" }}><Divider /></div>
       </div>
     </section>
