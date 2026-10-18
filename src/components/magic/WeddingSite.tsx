@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { wedding, timeLeft } from "@/lib/wedding";
 import { HallBackdrop } from "./Scenes";
 import { Crest, Divider, Letters } from "./Effects";
+import { toggleMusic, getMusicState, subscribeMusic } from "@/lib/sfx";
 
 function useReveal() {
   useEffect(() => {
@@ -39,23 +40,20 @@ function Countdown() {
 }
 
 function MusicToggle() {
-  const ref = useRef<HTMLAudioElement>(null);
-  const [playing, setPlaying] = useState(false);
-  const [available, setAvailable] = useState(true);
-  if (!available) return null;
-  const toggle = () => {
-    const a = ref.current;
-    if (!a) return;
-    if (playing) { a.pause(); setPlaying(false); }
-    else a.play().then(() => setPlaying(true)).catch(() => setAvailable(false));
-  };
+  const [state, setState] = useState({ playing: false, available: true });
+  useEffect(() => {
+    setState(getMusicState());
+    return subscribeMusic(() => setState(getMusicState()));
+  }, []);
+  if (!state.available) return null;
   return (
-    <>
-      <audio ref={ref} src={wedding.music} loop preload="none" onError={() => setAvailable(false)} />
-      <button onClick={toggle} aria-label={playing ? "Pause music" : "Play music"} className="btn-ghost-gold fixed bottom-5 right-5 z-40 flex h-12 w-12 items-center justify-center rounded-full text-lg">
-        {playing ? "❚❚" : "♪"}
-      </button>
-    </>
+    <button
+      onClick={toggleMusic}
+      aria-label={state.playing ? "Pause music" : "Play music"}
+      className="btn-ghost-gold fixed bottom-5 right-5 z-40 flex h-12 w-12 items-center justify-center rounded-full text-lg"
+    >
+      {state.playing ? "❚❚" : "♪"}
+    </button>
   );
 }
 

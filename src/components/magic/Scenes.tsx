@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { wedding } from "@/lib/wedding";
+import { playSfx, startMusic } from "@/lib/sfx";
 import { Particles, FloatingCandles, Steam, Stars, OptionalVideo, Crest, Divider, Letters, rnd } from "./Effects";
 
 /* ================= SCENE 1: INVITATION ================= */
@@ -8,6 +9,8 @@ export function InvitationScene({ onDone }: { onDone: () => void }) {
   const [leaving, setLeaving] = useState(false);
   const openIt = () => {
     if (open) return;
+    playSfx("seal");
+    startMusic();
     setOpen(true);
     setTimeout(() => setLeaving(true), 8000);
     setTimeout(onDone, 9200);
@@ -102,6 +105,7 @@ function Arch({ x, w, h, depth }: { x: number; w: number; h: number; depth: numb
 export function PlatformScene({ onBoard }: { onBoard: () => void }) {
   const [boarding, setBoarding] = useState(false);
   const board = () => {
+    playSfx("chug");
     setBoarding(true);
     setTimeout(onBoard, 2400);
   };

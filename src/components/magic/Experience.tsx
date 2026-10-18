@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { InvitationScene, PlatformScene, JourneyScene, CastleScene, HallScene } from "./Scenes";
 import { WeddingSite } from "./WeddingSite";
+import { playSfx } from "@/lib/sfx";
 
 type Scene = "invite" | "platform" | "journey" | "castle" | "hall" | "site";
 
@@ -10,6 +11,17 @@ export function Experience() {
   useEffect(() => {
     setReduced(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
   }, []);
+
+  // Scene transition sound effects (one per scene entry)
+  const lastSfx = useRef<Scene | null>(null);
+  useEffect(() => {
+    if (scene === lastSfx.current) return;
+    lastSfx.current = scene;
+    if (scene === "platform") playSfx("whoosh");
+    if (scene === "journey") playSfx("whistle");
+    if (scene === "castle") playSfx("chime");
+    if (scene === "hall") playSfx("whoosh", 0.4);
+  }, [scene]);
 
   const journeyMs = reduced ? 1500 : 7500;
   useEffect(() => {
