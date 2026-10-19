@@ -399,7 +399,7 @@ export function CastleScene() {
         <Stars count={90} />
         <div className="absolute inset-0 flex items-end justify-center">
           <div className="pointer-events-none absolute bottom-[10%] left-1/2 h-[34vh] w-[80vw] -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(ellipse, oklch(0.79 0.1 85 / 14%), transparent 65%)" }} aria-hidden />
-          <svg viewBox="0 0 1000 500" className="h-[85vh] w-[240vw] max-w-none shrink-0 sm:w-full" preserveAspectRatio="xMidYMax meet" style={{ animation: "castle-rise 4s var(--ease-magic) 0.4s both" }} aria-hidden>
+          <svg viewBox="0 0 1000 500" className="h-[85vh] w-[200vw] max-w-none shrink-0 sm:w-full" preserveAspectRatio="xMidYMax meet" style={{ animation: "castle-rise 4s var(--ease-magic) 0.4s both" }} aria-hidden>
             {/* distant towers */}
             <g opacity="0.55">
               <Tower x={120} w={30} h={180} roof={60} />
