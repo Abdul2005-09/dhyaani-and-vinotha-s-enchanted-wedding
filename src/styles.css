@@ -225,20 +225,25 @@
   100% { clip-path: circle(150% at 50% 50%); }
 }
 
-/* ---------- invitation 3D ---------- */
-.invite-stage { perspective: 2000px; }
+/* ---------- invitation two-sided 3D opening ---------- */
+.invite-stage { perspective: 2000px; touch-action: none; }
 .invite-card { transform-style: preserve-3d; transition: transform 1.6s var(--ease-magic); }
-.invite-cover {
-  transform-origin: left center;
+.invite-panel {
   transform-style: preserve-3d;
   backface-visibility: hidden;
-  transition: transform 2s var(--ease-cine), box-shadow 2s;
+  transition: transform 2.2s var(--ease-cine);
 }
-.is-open .invite-cover { transform: rotateY(-178deg); }
-.is-open .invite-card { transform: translateX(22%) rotateX(6deg) scale(1.02); }
-.invite-inner { transition: filter 1.2s 0.6s, transform 2s var(--ease-magic); filter: brightness(0.5); }
+.invite-panel-l { transform-origin: left center; }
+.invite-panel-r { transform-origin: right center; }
+.is-open .invite-panel-l { transform: rotateY(-168deg); }
+.is-open .invite-panel-r { transform: rotateY(168deg); }
+.is-open .invite-card { transform: scale(1.03); }
+.invite-inner { transition: filter 1.2s 0.5s, transform 2.2s var(--ease-magic); filter: brightness(0.55); }
 .is-open .invite-inner { filter: none; }
 .is-leaving { animation: none; transition: opacity 1s, transform 1.2s var(--ease-cine), filter 1s; opacity: 0; transform: scale(1.6); filter: blur(8px) brightness(2); }
+
+/* pause all animations while the tab is hidden (performance) */
+.page-hidden *, .page-hidden *::before, .page-hidden *::after { animation-play-state: paused !important; }
 
 .seal { animation: seal-pulse 2.6s ease-in-out infinite; }
 .is-open .seal { animation: seal-break 0.9s var(--ease-magic) forwards; }
