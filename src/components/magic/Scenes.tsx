@@ -399,7 +399,7 @@ export function CastleScene() {
         <Stars count={90} />
         <div className="absolute inset-0 flex items-end justify-center">
           <div className="pointer-events-none absolute bottom-[10%] left-1/2 h-[34vh] w-[80vw] -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(ellipse, oklch(0.79 0.1 85 / 14%), transparent 65%)" }} aria-hidden />
-          <svg viewBox="0 0 1000 500" className="h-[58vh] w-[220vw] max-w-none sm:h-[82vh] sm:w-full" preserveAspectRatio="xMidYMax meet" style={{ animation: "castle-rise 4s var(--ease-magic) 0.4s both" }} aria-hidden>
+          <svg viewBox="0 0 1000 500" className="h-[85vh] w-[240vw] max-w-none sm:w-full" preserveAspectRatio="xMidYMax meet" style={{ animation: "castle-rise 4s var(--ease-magic) 0.4s both" }} aria-hidden>
             {/* distant towers */}
             <g opacity="0.55">
               <Tower x={120} w={30} h={180} roof={60} />
@@ -424,8 +424,8 @@ export function CastleScene() {
         </div>
         {/* clouds / mist parting */}
         {[0, 1, 2].map((i) => (
-          <div key={i} className="pointer-events-none absolute inset-x-[-20%]" style={{ top: `${25 + i * 22}%`, height: "30vh", animation: `cloud-drift ${14 + i * 4}s ease-in-out infinite alternate` }} aria-hidden>
-            <div className="h-full w-full" style={{ background: "radial-gradient(ellipse at 30% 50%, oklch(0.94 0.03 80 / 18%), transparent 60%), radial-gradient(ellipse at 75% 50%, oklch(0.94 0.03 80 / 14%), transparent 55%)", filter: "blur(10px)" }} />
+          <div key={i} className="pointer-events-none absolute inset-x-[-20%]" style={{ top: `${8 + i * 18}%`, height: "24vh", animation: `cloud-drift ${14 + i * 4}s ease-in-out infinite alternate` }} aria-hidden>
+            <div className="h-full w-full" style={{ background: "radial-gradient(ellipse at 30% 50%, oklch(0.94 0.03 80 / 12%), transparent 60%), radial-gradient(ellipse at 75% 50%, oklch(0.94 0.03 80 / 9%), transparent 55%)", filter: "blur(10px)" }} />
           </div>
         ))}
         <div className="pointer-events-none absolute inset-y-0 left-0 w-1/2 velvet-tex opacity-80" style={{ filter: "blur(30px)", animation: "mist-part 3s var(--ease-cine) 0.2s both", "--mx": "-80%" } as React.CSSProperties} />
