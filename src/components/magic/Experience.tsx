@@ -12,6 +12,14 @@ export function Experience() {
     setReduced(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
   }, []);
 
+  // Pause all CSS animations while the tab is hidden (performance)
+  useEffect(() => {
+    const onVis = () => document.documentElement.classList.toggle("page-hidden", document.hidden);
+    document.addEventListener("visibilitychange", onVis);
+    onVis();
+    return () => document.removeEventListener("visibilitychange", onVis);
+  }, []);
+
   // Scene transition sound effects (one per scene entry)
   const lastSfx = useRef<Scene | null>(null);
   useEffect(() => {

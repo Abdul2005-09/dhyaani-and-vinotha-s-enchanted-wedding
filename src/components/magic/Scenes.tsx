@@ -1,12 +1,44 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { wedding } from "@/lib/wedding";
 import { playSfx, startMusic } from "@/lib/sfx";
 import { Particles, FloatingCandles, Steam, Stars, OptionalVideo, Crest, Divider, Letters, rnd } from "./Effects";
 
-/* ================= SCENE 1: INVITATION ================= */
+/* ================= SCENE 1: INVITATION (two-sided 3D opening) ================= */
+function CoverCastle() {
+  const tower = (x: number, w: number, h: number, roof: number, key: number) => (
+    <g key={key}>
+      <rect x={x} y={300 - h} width={w} height={h} style={{ fill: "var(--cherry)" }} />
+      <path d={`M${x - 5} ${300 - h} L${x + w / 2} ${300 - h - roof} L${x + w + 5} ${300 - h}Z`} style={{ fill: "var(--burgundy)" }} />
+      <path d={`M${x + w / 2 - 3} ${300 - h + 24} v-6 q3 -6 6 0 v6z`} style={{ fill: "var(--candle)", animation: `window-glow ${2.5 + key * 0.4}s infinite` }} />
+    </g>
+  );
+  return (
+    <svg viewBox="0 0 400 560" className="h-full w-full" preserveAspectRatio="xMidYMid slice" aria-hidden>
+      <rect width="400" height="560" style={{ fill: "var(--cherry)" }} />
+      {Array.from({ length: 26 }).map((_, i) => (
+        <circle key={i} cx={rnd(i, 71) * 400} cy={rnd(i, 72) * 260} r={rnd(i, 73) > 0.8 ? 1.6 : 0.8} style={{ fill: "var(--ivory)" }} opacity={0.4 + rnd(i, 74) * 0.5} />
+      ))}
+      <circle cx="316" cy="96" r="26" style={{ fill: "var(--ivory)" }} opacity="0.9" />
+      <circle cx="316" cy="96" r="46" style={{ fill: "oklch(0.94 0.03 80 / 18%)" }} />
+      {tower(88, 34, 130, 50, 1)}
+      {tower(282, 36, 150, 56, 2)}
+      {tower(148, 50, 190, 70, 3)}
+      {tower(228, 44, 170, 62, 4)}
+      {tower(193, 62, 232, 92, 5)}
+      <rect x="118" y="240" width="184" height="60" style={{ fill: "var(--cherry)" }} />
+      {[138, 170, 202, 234, 266].map((x, i) => (
+        <path key={i} d={`M${x} 292 v-26 q8 -16 16 0 v26z`} style={{ fill: "var(--candle)", animation: `window-glow ${2.2 + i * 0.3}s infinite` }} />
+      ))}
+      <ellipse cx="200" cy="312" rx="260" ry="60" style={{ fill: "oklch(0.94 0.03 80 / 10%)" }} />
+    </svg>
+  );
+}
+
 export function InvitationScene({ onDone }: { onDone: () => void }) {
   const [open, setOpen] = useState(false);
   const [leaving, setLeaving] = useState(false);
+  const dragX = useRef<number | null>(null);
+
   const openIt = () => {
     if (open) return;
     playSfx("seal");
@@ -15,6 +47,7 @@ export function InvitationScene({ onDone }: { onDone: () => void }) {
     setTimeout(() => setLeaving(true), 8000);
     setTimeout(onDone, 9200);
   };
+
   return (
     <section className={`fixed inset-0 overflow-hidden bg-velvet ${open ? "is-open" : ""}`}>
       <OptionalVideo src={wedding.videos.intro} />
@@ -32,55 +65,90 @@ export function InvitationScene({ onDone }: { onDone: () => void }) {
         }}
       />
       <div className={`invite-stage relative flex h-full items-center justify-center px-4 ${leaving ? "is-leaving" : ""}`}>
-        <button
-          onClick={openIt}
-          aria-label="Open the invitation"
-          className="invite-card relative aspect-[3/4.2] w-[min(82vw,380px)] cursor-pointer text-left focus-visible:outline-none"
-          style={{ animation: "fade-up 1.4s var(--ease-magic) both" }}
-        >
-          {/* inner paper */}
-          <div className="invite-inner parchment gold-frame absolute inset-0 flex flex-col items-center justify-center gap-3 rounded-md p-6 text-center">
-            <Crest className="h-16 w-16" />
-            <p className="font-display text-[0.6rem] tracking-[0.35em]">YOU ARE CORDIALLY INVITED</p>
-            <p className="font-script text-4xl text-crimson">{wedding.bride}</p>
-            <p className="font-display text-xs tracking-[0.4em]">&amp;</p>
-            <p className="font-script text-4xl text-crimson">{wedding.groom}</p>
-            <p className="font-serif italic">{wedding.invitation}</p>
-          </div>
-          {/* cover */}
-          <div className="invite-cover velvet-tex gold-frame absolute inset-0 flex flex-col items-center justify-center gap-4 rounded-md p-6 text-center">
-            <div className="absolute inset-3 rounded border border-gold/40" />
-            <Crest className="h-20 w-20 drop-shadow-[0_0_12px_var(--candle)]" />
-            <p className="font-display text-[0.6rem] tracking-[0.35em] text-candle sm:text-xs">TOGETHER WITH THEIR FAMILIES</p>
-            <h1 className="font-script text-5xl text-gold-shimmer sm:text-6xl">{wedding.bride}</h1>
-            <p className="font-display text-sm tracking-[0.5em] text-gold">WEDS</p>
-            <h1 className="font-script text-5xl text-gold-shimmer sm:text-6xl">{wedding.groom}</h1>
-            <p className="mt-3 animate-pulse font-display text-[0.6rem] tracking-[0.3em] text-candle">TAP THE SEAL TO OPEN</p>
-          </div>
-          {/* wax seal */}
+        <div className="relative flex flex-col items-center gap-6">
           <div
-            className="seal absolute left-full top-1/2 flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full"
-            style={{ background: "radial-gradient(circle at 35% 30%, var(--candle), var(--gold) 45%, oklch(0.55 0.1 70))" }}
+            role="button"
+            tabIndex={0}
+            onClick={openIt}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                openIt();
+              }
+            }}
+            onPointerDown={(e) => {
+              dragX.current = e.clientX;
+            }}
+            onPointerMove={(e) => {
+              if (dragX.current === null || open) return;
+              if (Math.abs(e.clientX - dragX.current) > 70) {
+                dragX.current = null;
+                openIt();
+              }
+            }}
+            onPointerUp={() => {
+              dragX.current = null;
+            }}
+            onPointerCancel={() => {
+              dragX.current = null;
+            }}
+            aria-label="Open the invitation — tap the seal or drag the panels apart"
+            className="invite-card relative aspect-[3/4.2] w-[min(82vw,380px)] cursor-pointer select-none text-left focus-visible:outline-none"
+            style={{ animation: "fade-up 1.4s var(--ease-magic) both" }}
           >
-            <span className="font-deco text-lg text-burgundy">DV</span>
+            {/* inner paper */}
+            <div className="invite-inner parchment gold-frame absolute inset-0 flex flex-col items-center justify-center gap-3 rounded-md p-6 text-center">
+              <Crest className="h-16 w-16" />
+              <p className="font-display text-[0.6rem] tracking-[0.35em]">YOU ARE CORDIALLY INVITED</p>
+              <p className="font-script text-4xl text-crimson">{wedding.bride}</p>
+              <p className="font-display text-xs tracking-[0.4em]">&amp;</p>
+              <p className="font-script text-4xl text-crimson">{wedding.groom}</p>
+              <p className="font-serif italic">{wedding.invitation}</p>
+            </div>
+            {/* left panel — shows left half of the cover art, swings out to the left */}
+            <div className="invite-panel invite-panel-l velvet-tex gold-frame absolute inset-y-0 left-0 w-1/2 overflow-hidden rounded-l-md">
+              <div className="absolute inset-y-0 left-0 w-[200%]">
+                <CoverCastle />
+              </div>
+              <div className="absolute inset-2 rounded-sm border border-gold/40" />
+            </div>
+            {/* right panel — shows right half of the cover art, swings out to the right */}
+            <div className="invite-panel invite-panel-r velvet-tex gold-frame absolute inset-y-0 right-0 w-1/2 overflow-hidden rounded-r-md">
+              <div className="absolute inset-y-0 right-0 w-[200%]">
+                <CoverCastle />
+              </div>
+              <div className="absolute inset-2 rounded-sm border border-gold/40" />
+            </div>
+            {/* wax seal */}
+            <div
+              className="seal absolute left-1/2 top-1/2 z-10 flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full"
+              style={{ background: "radial-gradient(circle at 35% 30%, var(--candle), var(--gold) 45%, oklch(0.55 0.1 70))" }}
+            >
+              <span className="font-deco text-lg text-burgundy">DV</span>
+            </div>
+            {/* burst */}
+            {open &&
+              Array.from({ length: 36 }).map((_, i) => (
+                <span
+                  key={i}
+                  className="pointer-events-none absolute left-1/2 top-1/2 z-20 h-1.5 w-1.5 rounded-full bg-candle"
+                  style={
+                    {
+                      "--a": `${i * 10}deg`,
+                      "--d": `${-120 - rnd(i, 41) * 220}px`,
+                      boxShadow: "var(--glow-candle)",
+                      animation: `burst ${1.2 + rnd(i, 42)}s var(--ease-magic) ${0.4 + rnd(i, 43) * 0.3}s both`,
+                    } as React.CSSProperties
+                  }
+                />
+              ))}
           </div>
-          {/* burst */}
-          {open &&
-            Array.from({ length: 36 }).map((_, i) => (
-              <span
-                key={i}
-                className="pointer-events-none absolute left-1/2 top-1/2 h-1.5 w-1.5 rounded-full bg-candle"
-                style={
-                  {
-                    "--a": `${i * 10}deg`,
-                    "--d": `${-120 - rnd(i, 41) * 220}px`,
-                    boxShadow: "var(--glow-candle)",
-                    animation: `burst ${1.2 + rnd(i, 42)}s var(--ease-magic) ${0.4 + rnd(i, 43) * 0.3}s both`,
-                  } as React.CSSProperties
-                }
-              />
-            ))}
-        </button>
+          {!open && (
+            <p className="animate-pulse font-display text-[0.6rem] tracking-[0.3em] text-candle" style={{ animation: "fade-in 1s 1.4s both" }}>
+              TAP THE SEAL OR DRAG THE PANELS TO OPEN
+            </p>
+          )}
+        </div>
       </div>
     </section>
   );
@@ -330,7 +398,8 @@ export function CastleScene() {
       <div className="absolute inset-0" style={{ animation: "camera-push 7s ease-out both" }}>
         <Stars count={90} />
         <div className="absolute inset-0 flex items-end justify-center">
-          <svg viewBox="0 0 1000 500" className="w-[240vw] max-w-none sm:h-[78vh] sm:w-full" preserveAspectRatio="xMidYMax meet" style={{ animation: "castle-rise 4s var(--ease-magic) 0.4s both" }} aria-hidden>
+          <div className="pointer-events-none absolute bottom-[10%] left-1/2 h-[34vh] w-[80vw] -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(ellipse, oklch(0.79 0.1 85 / 14%), transparent 65%)" }} aria-hidden />
+          <svg viewBox="0 0 1000 500" className="h-[85vh] w-[200vw] max-w-none shrink-0 sm:w-full" preserveAspectRatio="xMidYMax meet" style={{ animation: "castle-rise 4s var(--ease-magic) 0.4s both" }} aria-hidden>
             {/* distant towers */}
             <g opacity="0.55">
               <Tower x={120} w={30} h={180} roof={60} />
@@ -355,13 +424,13 @@ export function CastleScene() {
         </div>
         {/* clouds / mist parting */}
         {[0, 1, 2].map((i) => (
-          <div key={i} className="pointer-events-none absolute inset-x-[-20%]" style={{ top: `${25 + i * 22}%`, height: "30vh", animation: `cloud-drift ${14 + i * 4}s ease-in-out infinite alternate` }} aria-hidden>
-            <div className="h-full w-full" style={{ background: "radial-gradient(ellipse at 30% 50%, oklch(0.94 0.03 80 / 18%), transparent 60%), radial-gradient(ellipse at 75% 50%, oklch(0.94 0.03 80 / 14%), transparent 55%)", filter: "blur(10px)" }} />
+          <div key={i} className="pointer-events-none absolute inset-x-[-20%]" style={{ top: `${8 + i * 18}%`, height: "24vh", animation: `cloud-drift ${14 + i * 4}s ease-in-out infinite alternate` }} aria-hidden>
+            <div className="h-full w-full" style={{ background: "radial-gradient(ellipse at 30% 50%, oklch(0.94 0.03 80 / 12%), transparent 60%), radial-gradient(ellipse at 75% 50%, oklch(0.94 0.03 80 / 9%), transparent 55%)", filter: "blur(10px)" }} />
           </div>
         ))}
         <div className="pointer-events-none absolute inset-y-0 left-0 w-1/2 velvet-tex opacity-80" style={{ filter: "blur(30px)", animation: "mist-part 3s var(--ease-cine) 0.2s both", "--mx": "-80%" } as React.CSSProperties} />
         <div className="pointer-events-none absolute inset-y-0 right-0 w-1/2 velvet-tex opacity-80" style={{ filter: "blur(30px)", animation: "mist-part 3s var(--ease-cine) 0.2s both", "--mx": "80%" } as React.CSSProperties} />
-        <FloatingCandles count={8} />
+        <FloatingCandles count={12} />
         <Particles count={35} />
       </div>
       <div className="absolute inset-x-0 top-[8%] text-center" style={{ animation: "fade-up 1.5s 2.6s both" }}>
