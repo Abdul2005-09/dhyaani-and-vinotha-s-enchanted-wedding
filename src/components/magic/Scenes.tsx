@@ -143,9 +143,11 @@ export function InvitationScene({ onDone }: { onDone: () => void }) {
                 />
               ))}
           </div>
-          <p className="animate-pulse font-display text-[0.6rem] tracking-[0.3em] text-candle" style={{ animation: "fade-in 1s 1.4s both" }}>
-            TAP THE SEAL OR DRAG THE PANELS TO OPEN
-          </p>
+          {!open && (
+            <p className="animate-pulse font-display text-[0.6rem] tracking-[0.3em] text-candle" style={{ animation: "fade-in 1s 1.4s both" }}>
+              TAP THE SEAL OR DRAG THE PANELS TO OPEN
+            </p>
+          )}
         </div>
       </div>
     </section>
